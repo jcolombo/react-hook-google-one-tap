@@ -16,7 +16,8 @@ export interface IUseGoogleOneTapLogin {
   disableCancelOnUnmount?: boolean
   onError?: (error?: Error | string) => void
   googleAccountConfigs: IGoogleOneTapLoginProps
-  onSuccess?: (response: IGoogleEndPointResponse) => void
+  // Raw Google ID token (JWT). Verify it on your server before trusting it.
+  onSuccess?: (credential: string) => void
 }
 
 export interface IGoogleOneTapLoginProps {
@@ -33,22 +34,6 @@ export interface IGoogleOneTapLoginProps {
 
 export interface IGoogleCallbackResponse {
   credential?: string
-}
-
-export interface IGoogleEndPointResponse {
-  iss: string
-  sub: string
-  azp: string
-  aud: string
-  iat: string
-  exp: string
-  name: string
-  email: string
-  local: string
-  picture: string
-  given_name: string
-  family_name: string
-  email_verified: string
 }
 
 export default null

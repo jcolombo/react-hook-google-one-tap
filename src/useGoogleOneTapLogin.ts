@@ -1,16 +1,13 @@
 import { useEffect } from 'react'
-import {
-  IUseGoogleOneTapLogin,
-  IGoogleCallbackResponse,
-  IGoogleEndPointResponse
-} from './types'
+import { IUseGoogleOneTapLogin, IGoogleCallbackResponse } from './types'
 import useScript from './useScript'
 
 const scriptFlag: string = '__googleOneTapScript__'
 const googleClientScriptURL: string = 'https://accounts.google.com/gsi/client'
-const oauthEndpointURL: string =
-  'https://oauth2.googleapis.com/tokeninfo?id_token='
 
+// Hands back the raw ID token. It is NOT verified here: the consumer's server
+// must verify its signature, `aud` (your client ID), `iss` and `exp` before
+// trusting any identity in it. A browser-side check can always be bypassed.
 function callback({
   data,
   onError,
@@ -21,28 +18,11 @@ function callback({
   onSuccess?: IUseGoogleOneTapLogin['onSuccess']
 }) {
   if (data?.credential) {
-    fetch(`${oauthEndpointURL}${data.credential}`)
-      .then(resp => {
-        if (resp?.status === 200 && resp?.json) {
-          return resp.json()
-        } else {
-          if (onError) {
-            onError()
-          }
-          throw new Error('Something went wrong')
-        }
-      })
-      .then((resp: IGoogleEndPointResponse) => {
-        if (onSuccess) {
-          onSuccess(resp)
-        }
-      })
-      .catch(error => {
-        if (onError) {
-          onError(error)
-        }
-        throw error
-      })
+    if (onSuccess) {
+      onSuccess(data.credential)
+    }
+  } else if (onError) {
+    onError('Google returned no credential')
   }
 }
 
