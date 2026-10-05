@@ -2,6 +2,11 @@ MIT License
 
 Copyright (c) 2023 Joel Colombo
 
+Derived from MIT Licensed Project:
+https://www.npmjs.com/package/react-google-one-tap-login
+https://github.com/MSalmanTariq/react-google-one-tap-login
+All Rights Reserved Copyright (c) 2020 Salman Tariq
+
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
 in the Software without restriction, including without limitation the rights
